@@ -4,6 +4,7 @@ const addbook = document.querySelector("#addbook");
 const myform = document.querySelector("form");
 const submit = document.querySelector("#submit");
 const body = document.querySelector("body");
+const permanentelements = document.querySelector("#permanentelements");
 
 const inp_title = document.querySelector("#title");
 const inp_author = document.querySelector("#author");
@@ -39,19 +40,26 @@ function displayBooks () {
 
 displayBooks();
 
+//Show form
 addbook.addEventListener("click", function () {
-    myform.style.filter = "none";
+    permanentelements.style.filter = "blur(3px)";
     myform.style.display = "flex";
 })
 
-function addBookToLibrary () {
-    let newbook = new Book(inp_title.value, inp_author.value, inp_pages.value, inp_read.checked);
-    myLibrary.push(newbook);
+//Restore form to defaults and hide
+function closeForm() {
     inp_title.value = "";
     inp_author.value = "";
     inp_pages.value = 0;
     read.checked = false;
     myform.style.display = "none";
+    permanentelements.style.filter = "none";
+}
+
+function addBookToLibrary () {
+    let newbook = new Book(inp_title.value, inp_author.value, inp_pages.value, inp_read.checked);
+    myLibrary.push(newbook);
+    closeForm();
 }
 
 submit.addEventListener("click", function () {
