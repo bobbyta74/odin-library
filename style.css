@@ -43,7 +43,13 @@ form {
 
 button, input {
     border-radius:5px;
-    border:1px solid black;
+    border:2px solid black;
+}
+
+#closeform {
+    align-self:flex-end;
+    width:25px;
+    height:25px;
 }
 
 #bookshelf {
@@ -65,4 +71,20 @@ button, input {
     gap:15px;
     flex-direction:column;
     justify-content:space-between;
+}
+
+button {
+    background-color:#52b9a8;
+}
+
+.del {
+    background-color:#ff605c;
+}
+
+button:hover {
+    filter:brightness(85%);
+}
+
+button:active {
+    transform:scale(1.1);
 }

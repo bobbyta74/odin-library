@@ -4,6 +4,7 @@ const myform = document.querySelector("form");
 const submit = document.querySelector("#submit");
 const body = document.querySelector("body");
 const permanentelements = document.querySelector("#permanentelements");
+const closeform = document.querySelector("#closeform")
 
 const inp_title = document.querySelector("#title");
 const inp_author = document.querySelector("#author");
@@ -16,19 +17,35 @@ function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    if (read == true) {
-        this.read = "read";
-    } else {
-        this.read = "not read yet"
-    }
+    this.read = read;
 }
 
 Book.prototype.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
+    return `${this.title} by ${this.author}, ${this.pages} pages`
+}
+
+Book.prototype.toggleRead = function () {
+    if (this.read) {
+        this.read = false;
+    } else {
+        this.read = true;
+    }
 }
 
 const mobydick = new Book("Moby Dick", "Herman Melville", 400, false);
 myLibrary.push(mobydick);
+
+//Change 'read' values of book object into colour-coded output
+//element and book passed in as parameters because the actual 'toggle' and 'book' we manipulate vary for every book
+function displayRead(element, book) {
+    if (book.read) {
+        element.textContent = "read";
+        element.style.backgroundColor = "#00ca4e";
+    } else {
+        element.textContent = "not read";
+        element.style.backgroundColor = "#ffbd44";
+    }
+}
 
 //Actually put the books on the website
 //Iterate through myLibrary and make a div with description and buttons for every object
@@ -40,16 +57,31 @@ function displayBooks () {
     for (let book of myLibrary) {
         const mydiv = document.createElement("div");
         mydiv.textContent = book.info()
+
         const delbutton = document.createElement("button");
         delbutton.textContent = "x";
+        delbutton.setAttribute("class", "del");
         delbutton.addEventListener("click", function () {
-            console.log("bruh")
             myLibrary.splice(myLibrary.indexOf(book), 1);
             //RECURSION-JUTSU!!!
             //displayBooks() called to stop showing the deleted book
             displayBooks();
         });
-        mydiv.appendChild(delbutton);
+
+        const toggle = document.createElement("button");
+        displayRead(toggle, book);
+        toggle.addEventListener("click", function () {
+            book.toggleRead();
+            displayRead(toggle, book);
+        })
+
+        let buttonsdiv = document.createElement("div");
+        buttonsdiv.style.display = "flex";
+        buttonsdiv.style.flexDirection = "column";
+        buttonsdiv.style.gap = "2px";
+        buttonsdiv.appendChild(toggle);
+        buttonsdiv.appendChild(delbutton);
+        mydiv.appendChild(buttonsdiv);
         bookshelf.appendChild(mydiv);
     }
 }
@@ -78,7 +110,13 @@ addbook.addEventListener("click", function () {
     myform.style.display = "flex";
 })
 
+//Create book object, add to list, and update display
 submit.addEventListener("click", function () {
     addBookToLibrary();
     displayBooks();
+});
+
+//Cancel adding new book
+closeform.addEventListener("click", function () {
+    closeForm();
 });
