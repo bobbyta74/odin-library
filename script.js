@@ -111,7 +111,9 @@ addbook.addEventListener("click", function () {
 })
 
 //Create book object, add to list, and update display
-submit.addEventListener("click", function () {
+//This was originally an event listener on the submit button, but that didn't let the form get validated
+myform.addEventListener("submit", function (e) {
+    e.preventDefault();
     addBookToLibrary();
     displayBooks();
 });
