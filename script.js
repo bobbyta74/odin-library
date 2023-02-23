@@ -37,8 +37,8 @@ myLibrary.push(mobydick);
 
 //Change 'read' values of book object into colour-coded output
 //element and book passed in as parameters because the actual 'toggle' and 'book' we manipulate vary for every book
-function displayRead(element, book) {
-    if (book.read) {
+Book.prototype.displayRead = function (element) {
+    if (this.read) {
         element.textContent = "read";
         element.style.backgroundColor = "#00ca4e";
     } else {
@@ -69,10 +69,10 @@ function displayBooks () {
         });
 
         const toggle = document.createElement("button");
-        displayRead(toggle, book);
+        book.displayRead(toggle);
         toggle.addEventListener("click", function () {
             book.toggleRead();
-            displayRead(toggle, book);
+            book.displayRead(toggle);
         })
 
         let buttonsdiv = document.createElement("div");
